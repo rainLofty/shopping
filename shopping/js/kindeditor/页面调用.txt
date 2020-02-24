@@ -1,0 +1,13 @@
+<script charset="utf-8" src="__STATIC__/kindeditor/kindeditor-all-min.js"></script>
+<script charset="utf-8" src="__STATIC__/kindeditor/lang/zh-CN.js"></script>
+<script charset="utf-8" src="__STATIC__/kindeditor/plugins/code/prettify.js"></script>
+		
+<script>
+KindEditor.ready(function(K) {
+	var editor = K.create('#editor');			
+});
+</script>
+
+<textarea name="content"  id="editor" style="width:680px;height:350px;visibility:hidden;" ></textarea>
+
+

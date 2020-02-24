@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>添加商品</title>
+    <link rel="stylesheet" href="../css/public.css">
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/toast.min.js"></script>
+    <script src="../js/kindeditor/kindeditor-all-min.js"></script>
+    <script src="../js/kindeditor/lang/zh-CN.js"></script>
+    <script src="../js/upload.js"></script>
+    <style>
+       form{min-width:770px;margin:20px 50px;}
+       form div{padding:10px 0;}
+       form div span{width:80px;float: left;font-size:14px;line-height:32px;}
+       input{width:360px;height:30px;border:1px solid #ccc;line-height:30px;float: left;padding:0 5px;border-radius:3px;}
+       .proName{width: 66%;min-width:360px;}
+        .dropdown{width:340px;height:30px;border:1px solid #ccc;line-height:30px;float: left;padding:0 15px;border-radius:3px;position: relative;}
+        .dropdown h4{font-size:14px;font-weight: normal;cursor: pointer;}
+        .cates{background:#fff;border:1px solid #ccc;width:100%;position: absolute;top:30px;left:-1px;border-radius:0 0 3px 3px;border-top:none;display: none;}
+        .cates li{height:38px;line-height:38px;color:#333;font-size:14px;cursor: pointer;padding:0 15px;}
+        .cates li:hover{background: #bbdf88;color:#fff;}
+        .cates li.current{background:#23a981;color:#fff;}
+        .pubishBtn{width: 200px;height: 34px;border:none;background: #93bb5b;color:#fff;border-radius:3px;margin-left: 80px;margin-top: 30px;font-size:14px;cursor: pointer;}
+        .ke-container span{width: 16px;height: 16px;}
+        .ke-container div{padding: 0;}
+        .mianPhotos li{float: left;width: 150px;height: 150px;border:1px solid #ccc;margin-right: 20px;position: relative;overflow: hidden;}
+        .mianPhotos .uploadBtn{position: absolute;top: 0;left: 0;width: 100%;height: 100%;opacity: 0;cursor: pointer;}
+        .mianPhotos li img{width: 100%!important;}
+    </style>
+</head>
+<body>
+    <form action="http://192.168.1.67/shopping/admin/adminAction.php?act=addPro" method="post" id="addForm" enctype="multipart/form-data">
+        <div class="clearFix"><span>商品名称</span><input type="text" class="proName" name="pName"></div>
+        <div class="clearFix">
+            <span>商品分类</span>
+            <div class="dropdown">
+                <input type="hidden" name="cId" id="cateId">
+                <h4>请选择</h4>
+                <ul class="cates">
+                </ul>
+            </div>
+        </div>
+        <div class="clearFix"><span>商品货号</span><input type="text" name="pSn" ></div>
+        <div class="clearFix"><span>商品数量</span><input type="text" name="pNum" ></div>
+        <div class="clearFix"><span>商品原价</span><input type="text" name="mPrice"></div>
+        <div class="clearFix"><span>商品现价</span><input type="text" name="iPrice"></div>
+        <div class="clearFix"><span>上传主图</span>
+            <ul class="mianPhotos">
+                <li>
+                    <input type="file" class="uploadBtn" name="photo1" onchange="setImagePreview(this, null, document.getElementById('preview1'))"/>
+                    <img id="preview1" title="预览图片" class="artZoom" width="100%"  src="../img/upload_bg.jpg"/>
+                </li>
+                <li>
+                    <input type="file" class="uploadBtn" onchange="setImagePreview(this, null, document.getElementById('preview2'))"  name="photo2" />
+                    <img id="preview2" title="预览图片" class="artZoom" width="100%"  src="../img/upload_bg.jpg"/>
+                </li>
+                <li>
+                    <input type="file" class="uploadBtn" onchange="setImagePreview(this, null, document.getElementById('preview3'))"  name="photo3" />
+                    <img id="preview3" title="预览图片" class="artZoom" width="100%"  src="../img/upload_bg.jpg"/>
+                </li>
+                <li>
+                    <input type="file" class="uploadBtn" onchange="setImagePreview(this, null, document.getElementById('preview4'))"  name="photo4" />
+                    <img id="preview4" title="预览图片" class="artZoom" width="100%"  src="../img/upload_bg.jpg"/>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <span class="clearFix">商品描述</span>
+            <textarea name="pDesc" id="editor" style="width:85%;height:250px;"></textarea>
+        </div>
+        <button class="pubishBtn">发布商品</button>
+    </form>
+    <script>
+        KindEditor.ready(function(K) {
+            var editor = K.create('#editor');			
+        });
+        //获取商品分类
+        getCates();
+        function getCates(){
+            $.ajax({
+                url:'http://192.168.1.67/shopping/admin/adminAction.php?act=getAllCates',
+                dataType:'json',
+                method:'get',
+                success:function(data){
+                    console.log(data.result);
+                    $('tbody').empty();
+                    if(data.result){
+                        showData(data.result);//初始化数据
+                    }
+                }
+            })
+        }
+        function showData(dataInfo){
+            $('.cates').empty();
+            for(var i=0;i<dataInfo.length;i++){
+                var index = i + 1;
+                var cName = dataInfo[i].cName;
+                var cId = dataInfo[i].id;
+                var newTr = '<li data-id="'+cId+'">'+cName+'</li>';
+                $('.cates').append(newTr);
+            }
+        }
+        $('.cates').mouseleave(function(){
+            $(this).hide();
+        })
+        $('.dropdown h4').click(function(){
+            $(this).next('ul').show();
+        })
+        $(document).on('click','.cates li',function(){
+            $(this).addClass('current').siblings().removeClass('current');
+            $('.dropdown h4').html($(this).html());
+            $(this).parent('ul').hide();
+            var currentCId = $(this).attr('data-id');
+            $('#cateId').val(currentCId);
+        })
+    
+    </script>
+</body>
+</html>

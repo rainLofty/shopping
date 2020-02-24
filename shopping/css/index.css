@@ -1,0 +1,149 @@
+
+@import url(public.css);
+body{
+    background: #f8f8f8;
+}
+.header{
+    height: 60px;
+    line-height:60px;
+    color:#fff;
+    background: #bbdf88;
+    padding:0 20px;
+}
+.header .logo{
+    height: 26px;
+    float: left;
+    margin-top:17px;
+}
+.header h1{
+    float: left;
+    font-size:21px;
+    font-weight: normal;
+    margin-left: 10px;
+}
+.header .right li{
+    float: left;
+    font-size:16px;
+    margin-left: 30px;
+    cursor: pointer;
+}
+.header .right .touxiang{
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    overflow: hidden;
+    float: left;
+    margin-top: 15px;
+    margin-right: 10px;
+}
+.header .right img{
+    width: 100%;
+}
+.header .right span{
+    float: left;
+}
+.header .right .iconfont{
+    font-size:20px;
+    margin-right: 8px;
+    float: left;
+}
+.content{
+    overflow: hidden;
+    position: fixed;
+    top:80px;
+    bottom:10px;
+    left:20px;
+    right:20px;
+}
+.content .left{
+    width: 150px;
+    background: #fff;
+    height: 100%;
+    border-radius: 5px;
+    overflow-y:auto;
+}
+.content .right{
+    position: absolute;
+    left:170px;
+    right:0;
+    top:0;
+    height: 100%;
+    overflow-y:auto;
+}
+.content  .left li{
+    line-height:40px;
+    text-align: center;
+}
+.content  .left h3{
+    font-weight: normal;
+    text-align: left;
+    font-size:16px;
+    padding:0 15px;
+    cursor: pointer;
+    color:#999;
+}
+.content  .left li a{
+    display: block;
+    font-size:14px;
+}
+.content .left .current{
+    background: #bbdf88;
+}
+.content .left .current a{
+    color:#fff;
+}
+.content .right .brand_nav{
+    background: #fff;
+    border-radius: 5px;
+    padding-left:20px;
+    height: 55px;
+    line-height:55px;
+    font-size:18px;
+    color:#333;
+    font-weight: normal;
+    overflow: hidden;
+}
+.content .right .brand_nav span{
+    border-left: 5px solid #bbdf88;
+    padding-left: 15px;
+}
+
+.content .iframe_div{
+    background: #fff;
+    position: absolute;
+    top:75px;
+    left:0;
+    bottom:0;
+    right:0;
+    border-radius: 5px;
+    padding: 20px 0;
+}
+.content .iframe_div iframe{
+    width: 100%;
+    height: 100%;
+}
+.brand_nav div{
+    float: right;
+    font-size:14px;
+}
+.brand_nav div a{
+    display: inline-block;
+    color:#666;
+    padding:0 20px;
+}
+.brand_nav div a:hover{
+    background: #bbdf88;
+    color:#fff;
+}
+.brand_nav div .iconfont{
+    margin-right: 5px;
+}
+
+
+
+
+
+
+
+
+

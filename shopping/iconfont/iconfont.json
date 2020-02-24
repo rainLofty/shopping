@@ -1,0 +1,44 @@
+{
+  "id": "1498483",
+  "name": "电商后台管理",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "2301640",
+      "name": "用户",
+      "font_class": "yonghu1",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "4320361",
+      "name": "注销系统",
+      "font_class": "zhuxiaoxitong",
+      "unicode": "e65e",
+      "unicode_decimal": 58974
+    },
+    {
+      "icon_id": "4867080",
+      "name": "前进",
+      "font_class": "qianjin",
+      "unicode": "e651",
+      "unicode_decimal": 58961
+    },
+    {
+      "icon_id": "4942643",
+      "name": "后退",
+      "font_class": "houtui",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "8841995",
+      "name": "刷新",
+      "font_class": "shuaxin",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    }
+  ]
+}

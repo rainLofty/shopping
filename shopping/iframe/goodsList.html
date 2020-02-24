@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>商品列表</title>
+    <link rel="stylesheet" href="../css/public.css">
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/toast.min.js"></script>
+    <style>
+        .wrap{padding:0 30px;}
+       .tabs{width: 70%;margin:0 auto;overflow: hidden;}
+       .tabs span{float: left;width: 33.3%;height: 40px;line-height:40px;text-align: center;color:#333;cursor: pointer;margin-bottom: 30px;}
+       .tabs .current{background:#bbdf88;color:#fff;}
+       table{width: 100%;text-align: center;font-size:14px;color:#333;border:none;border-collapse: collapse;}
+       th,td{padding:20px 0;border:none;line-height:26px;}
+       tr{border-top:1px solid #ccc;}
+       td del{color:#bbb;font-size:14px;display: block;}
+       td a{display: block;}
+       .delete,.hide{color:#11ce0e;}
+       .edit,.show{color:#b10606;}
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="tabs">
+            <span class="current">所有商品</span>
+            <span>已上架商品</span>
+            <span>未上架商品</span>
+        </div>
+    <table border="1" cellpadding="0" cellspacing="0">
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>商品主图</th>
+                <th width="220">商品标题</th>
+                <th>商品分类</th>
+                <th>商品价格</th>
+                <th>是否上架</th>
+                <th>上架时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+        <!-- <tr>
+            <td>1</td>
+            <td><img src="" alt=""></td>
+            <td>雅诗兰黛</td>
+            <td>护肤</td>
+            <td>827<del>928</del></td>
+            <td>是</td>
+            <td>2019-11-11</td>
+            <td>
+                <a href="javascript:;" class="show">上架</a>
+                <a href="javascript:;" class="hide">下架</a>
+                <a href="javascript:;" class="edit">修改</a>
+                <a href="javascript:;" class="delete">删除</a>
+            </td>
+        </tr> -->
+    </table>
+    </div>
+    <script>
+        var currentTab = 0;
+        var passData = {};
+        $('.tabs span').click(function(){
+            $(this).addClass('current').siblings().removeClass('current');
+            currentTab = $(this).index();
+            if(currentTab == 0){
+                passData = {};
+            }else if(currentTab == 1){
+                passData = {isShow:1};
+            }else if(currentTab == 2){
+                passData = {isShow:0};
+            }
+            initData(passData);
+        })
+        initData(passData);
+        function initData(passData){
+            $.ajax({
+                url:'http://192.168.1.67/shopping/admin/adminAction.php?act=getPros',
+                method:'post',
+                dataType:'json',
+                data:passData,
+                success:function(data){
+                    if(data.status){
+                        showData(data.result);
+                    }
+                },
+                complete:function(data){
+                    console.log(data.responseText);
+                }
+            })
+        }
+        
+        function showData(dataInfo){
+            $('tbody').empty();
+            console.log(dataInfo);
+            for(var i=0;i<dataInfo.length;i++){
+                console.log(dataInfo[i]);
+                var isShow = dataInfo[i].isShow==1?'是':'否';
+                console.log(isShow);
+                var nodeStr = '<tr data-id="'+dataInfo[i].id+'"><td>'+(i+1)+'</td><td><img src="http://192.168.1.67/shopping/image_60/'+dataInfo[i].albumPath+'" alt=""></td><td>'+dataInfo[i].pName+'</td><td>'+dataInfo[i].cName+'</td><td>￥'+dataInfo[i].iPrice+'<del>￥'+dataInfo[i].mPrice+'</del></td><td>'+isShow+'</td><td>'+dataInfo[i].pubTime+'</td>';
+                if(currentTab==0){
+                    nodeStr += '<td><a href="javascript:;"  class="delete">删除</a></td></td></tr>';
+                }else if(currentTab==1){
+                    nodeStr += '<td><a href="javascript:;"  class="hide">下架</a></td></tr>'
+                }else if(currentTab==2){
+                    nodeStr += '<td><a href="javascript:;"  class="show">上架</a></td></tr>'
+                }
+                
+                $('tbody').append($(nodeStr));
+                
+            }
+        }
+        //上架
+        $(document).on('click','table .show',function(){
+            var id = $(this).closest('tr').attr('data-id');
+            var _this = $(this);
+            $.ajax({
+                url:'http://192.168.1.67/shopping/admin/adminAction.php?act=upPro',
+                method:'post',
+                dataType:'json',
+                data:{id:id},
+                success:function(data){
+                    if(data.status){
+                        _this.closest('tr').remove();
+                    }
+                },
+            })
+        });
+        //下架
+        $(document).on('click','table .hide',function(){
+            var id = $(this).closest('tr').attr('data-id');
+            var _this = $(this);
+            $.ajax({
+                url:'http://192.168.1.67/shopping/admin/adminAction.php?act=downPro',
+                method:'post',
+                dataType:'json',
+                data:{id:id},
+                success:function(data){
+                    if(data.status){
+                        _this.closest('tr').remove();
+                    }
+                },
+            })
+        });
+        //删除商品
+        $(document).on('click','table .delete',function(){
+            var id = $(this).closest('tr').attr('data-id');
+            var _this = $(this);
+            $.myConfirm({
+                message:'确定要删除该管理员吗？',
+                callback:function(){
+                    $.ajax({
+                        url:'http://192.168.1.67/shopping/admin/adminAction.php?act=delPro',
+                        method:'post',
+                        dataType:'json',
+                        data:{id:id},
+                        success:function(data){
+                            if(data.status){
+                                _this.closest('tr').remove();
+                            }
+                        },
+                        complete:function(data){
+                            console.log(data.responseText);
+                        }
+                    })
+                }
+            })
+            
+        });
+    </script>
+</body>
+</html>

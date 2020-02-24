@@ -1,0 +1,19 @@
+@import url(public.css);
+body,html{height:100%;}
+body{background: #bbdf88 url('../img/bg2.png') no-repeat center top;}
+.wrap{width: 1000px;height:460px;margin:0 auto;background:#fff;border-radius:10px ;position: fixed;top:50%;left:50%;margin-left:-500px;margin-top:-230px;overflow: hidden;}
+.wrap .left{width: 500px;background: #dff6c1;text-align: center;height: 100%;}
+.wrap .left img{width:84%;margin-top: 60px;}
+.wrap .login{width:360px;height: 100%;background:#fff;padding:0 50px 0 50px;float: left;}
+.wrap .login h3{font-size:20px;font-weight: normal;border-left: 5px solid #bbdf88;padding-left: 10px;margin: 40px 0;}
+.wrap .login li{line-height:40px;margin-bottom:30px;overflow: hidden;}
+.wrap .login span{float:left;width:60px;}
+.wrap .login .text input{width:280px;height:38px;border:1px solid #cecece;padding:0 4px;background: #f9f9f9;border-radius:5px;}
+.wrap .login  input{outline:none;float:left;}
+.wrap .login .checkbox{margin-bottom: 20px;overflow: hidden;padding-left: 60px;}
+.wrap label{color:#888;}
+.wrap .login .checkbox .remember{margin-top:5px;margin-right: 10px;}
+.wrap .login .checkbox label{float: left;cursor: pointer;}
+.wrap .login .code input{width: 150px;margin-right: 10px;}
+.wrap .login .code img{width: 117px;float: left;height: 40px;cursor: pointer;}
+.wrap .login_btn{width:290px;height:44px;border:none;background:#bbdf88;color:#fff;font-size:18px;margin-left:20px;cursor: pointer;border-radius:5px;margin-left: 60px;}
